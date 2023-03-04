@@ -18,6 +18,7 @@ public class IndianBank {
             System.out.println(ANSI_RED_BACKGROUND+ "\n------------- Welcome to our Indian_Bank -------------\n"   + ANSI_RESET);
             System.out.println("                   1)Create Account"        );
             System.out.println("                   2)Login Account"         );
+            System.out.println("                   3)Delete Account"        );
             try {
             	System.out.println("\n------------------------------------------------------");
                 System.out.print(YELLOW_BACKGROUND+BLACK+"Enter Input  :  " ); 
@@ -62,9 +63,27 @@ public class IndianBank {
                         System.out.println("Enter Valid Data::Login Failed!\n");
                         System.out.println("\n------------------------------------------------------");
                     }
-                    break;                     
+                    break;  
+                case 3:
+                	try {                    	
+                        System.out.print("            Enter UserName      :  ");
+                        userName = sc.readLine();
+                        System.out.print("            Enter New Password  :  ");
+                        password = Integer.parseInt(sc.readLine());
+                        System.out.println("\n------------------------------------------------------");
+                        if (bankManagement.deleteAccount(userName, password)) {
+                            
+                        }
+                        else {
+                            System.out.println("\n       ++++++Account Deleted Successfully++++++\n");
+                        }
+                    }
+                    catch (Exception e) {
+                        System.out.println(" Enter Valid Data::Insertion Failed!\n");
+                    }
+                    break;
                 default:
-                    System.out.println("Invalid Entry!\n");
+                    System.out.println("\n");
                 }
                 if (ch == 5) {
                     System.out.println("Exited Successfully!\n\n Thank You :)");
