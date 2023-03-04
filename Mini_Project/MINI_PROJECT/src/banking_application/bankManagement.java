@@ -88,8 +88,6 @@ public class bankManagement {
                         ch = Integer.parseInt(sc.readLine());
                         System.out.println(ANSI_RESET);
                         if (ch == 1) {                        	
-                        	System.out.print("              Enter Account Number : ");
-                            ac_no = Integer.parseInt(sc.readLine());
                             System.out.println("\n------------------------------------------------------");
                         	if(BalanceCheck.checkMoney(ac_no)) {
                         	}
