@@ -16,8 +16,7 @@ public class bankManagement {
     private static final int NULL = 0; 
     static Connection con = connection.getConnection();
     static String sql = "";
-	private static int ac_no;
-    public static boolean createAccount(String userName,int password)
+    public static boolean createAccount(String userName,int password, int ac_no)
     {
         try {
             if (userName == "" || password == NULL) {
@@ -25,7 +24,7 @@ public class bankManagement {
                 return false;
             }
             Statement st = con.createStatement();
-            sql = "INSERT INTO user(user_name,balance,password) values('"+ userName + "',1000," + password + ")";
+            sql = "INSERT INTO user(ac_no,user_name,balance,password) values('"+ac_no +"','"+ userName + "',1000," + password + ")";
             if (st.executeUpdate(sql) == 1) {
                 return true;
             }
@@ -59,7 +58,7 @@ public class bankManagement {
         }
     	return false;    	
     }
-    public static boolean loginAccount(String userName, int password)
+    public static boolean loginAccount(String userName, int password, int ac_no)
     {
         try {
             if (userName == "" || password == NULL) {

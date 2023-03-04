@@ -14,6 +14,7 @@ public class IndianBank {
         String userName;
         int password;
         int ch;
+        int ac_no = 0;
         while (true) {
             System.out.println(ANSI_RED_BACKGROUND+ "\n------------- Welcome to our Indian_Bank -------------\n"   + ANSI_RESET);
             System.out.println("                   1)Create Account"        );
@@ -27,13 +28,15 @@ public class IndianBank {
                 switch (ch) {
                 case 1:
                     try {
-                    	
+                    	System.out.print("            Enter your A/c No   :  ");
+                        ac_no = Integer.parseInt(sc.readLine());
                         System.out.print("            Enter UserName      :  ");
                         userName = sc.readLine();
                         System.out.print("            Enter New Password  :  ");
                         password = Integer.parseInt(sc.readLine());
                         System.out.println("\n------------------------------------------------------");
-                        if (bankManagement.createAccount(userName, password)) {
+                       
+						if (bankManagement.createAccount(userName, password, ac_no)) {
                             System.out.println("\n       ++++++Account Created Successfully++++++\n");
                         }
                         else {
@@ -46,12 +49,14 @@ public class IndianBank {
                     break;
                 case 2:
                     try {
-                        System.out.print("               Enter  UserName : ");
+                    	System.out.print("               Enter your A/c No : ");
+                        ac_no = Integer.parseInt(sc.readLine());
+                        System.out.print("               Enter  UserName   : ");
                         userName = sc.readLine();
-                        System.out.print("               Enter  Password : ");
+                        System.out.print("               Enter  Password   : ");
                         password = Integer.parseInt(sc.readLine());
                         System.out.println("\n------------------------------------------------------");
-                        if (bankManagement.loginAccount(userName, password)) {
+                        if (bankManagement.loginAccount(userName, password, ac_no)) {
                             System.out.println("                Logout Successfully!\n");
                             System.out.println("       Thank you for using our banking services");
                         }
@@ -79,7 +84,8 @@ public class IndianBank {
                         }
                     }
                     catch (Exception e) {
-                        System.out.println(" Enter Valid Data::Insertion Failed!\n");
+                        System.out.println("\nEnter Valid Data::Insertion Failed!");
+                        System.out.println("\n------------------------------------------------------");
                     }
                     break;
                 default:
