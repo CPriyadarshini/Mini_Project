@@ -23,17 +23,14 @@ public class Withdraw {
                     return false;
                 }
             }
-            
             Statement st = con.createStatement();
             con.setSavepoint();
             sql = "update user set balance=balance-"+ amt + " where ac_no=" + ac_no;
-            if (st.executeUpdate(sql) == 2) {
-                                
+            if (st.executeUpdate(sql) == 3) {
             }
             con.commit();
             return true;
-        }
-		
+        }		
         catch (Exception e) {        	
             e.printStackTrace();            
         }

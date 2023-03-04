@@ -17,9 +17,7 @@ public class bankManagement {
     static Connection con = connection.getConnection();
     static String sql = "";
 	private static int ac_no;
-	private static int balance;
-    public static boolean
-    createAccount(String userName,int password)
+    public static boolean createAccount(String userName,int password)
     {
         try {
             if (userName == "" || password == NULL) {
@@ -40,15 +38,35 @@ public class bankManagement {
         }
         return false;
     }
-    public static boolean
-    loginAccount(String user_name, int password)
-    {
-        try {
-            if (user_name == "" || password == NULL) {
+    public static boolean deleteAccount(String userName,int password ){
+    	try {
+            if (userName == "" || password == NULL) {
                 System.out.println("All Field Required!");
                 return false;
             }
-            sql = "select * from user where user_name='"+ user_name + "' and password=" + password;
+            Statement st = con.createStatement();
+            sql = "delete from user where user_name='"+ userName + "' and password=" + password;
+            if (st.executeUpdate(sql) == 3) {
+            	System.out.println("\n       ++++++Account Deleted Successfully++++++\n");
+                return true;
+            }
+        }
+        catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("Try another Password....This password Alredy exists...");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    	return false;    	
+    }
+    public static boolean loginAccount(String userName, int password)
+    {
+        try {
+            if (userName == "" || password == NULL) {
+                System.out.println("All Field Required!");
+                return false;
+            }
+            sql = "select * from user where user_name='"+ userName + "' and password=" + password;
             PreparedStatement st = con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             BufferedReader sc = new BufferedReader(new InputStreamReader(System.in)); 
@@ -58,20 +76,26 @@ public class bankManagement {
                 int senderAc = rs.getInt("ac_no");
                 int receiveAc;
                 while (true) {
-                    try {
-                        System.out.println("             !!!!!Login Successfully!!!!!");
+                    try {                       
                         System.out.println("\n------------------------------------------------------");
                         System.out.println(ANSI_RED_BACKGROUND+"         Welcome to our IndianBank,   "+ rs.getString("user_name")+"           "+ANSI_RESET);
-                        System.out.println("\n                   1)Deposit Money");
-                        System.out.println("                   2)Withdraw Money");
-                        System.out.println("                   3)Transaction Money");
-                        System.out.println("                   4)View Balance");
+                        System.out.println("\n                   1)View Balance");
+                        System.out.println("                   2)Deposit Money");
+                        System.out.println("                   3)Withdraw Money");
+                        System.out.println("                   4)Transaction Money");
                         System.out.println("                   5)LogOut");
                         System.out.println("\n------------------------------------------------------");
                         System.out.print(CYAN_BACKGROUND+BLACK+"Enter Choice  :  ");
                         ch = Integer.parseInt(sc.readLine());
                         System.out.println(ANSI_RESET);
-                        if (ch == 1) {
+                        if (ch == 1) {                        	
+                        	System.out.print("              Enter Account Number : ");
+                            ac_no = Integer.parseInt(sc.readLine());
+                            System.out.println("\n------------------------------------------------------");
+                        	if(BalanceCheck.checkMoney(ac_no)) {
+                        	}
+                        }
+						if (ch == 2) {
                             System.out.print("                 Enter Amount : ");
                             amt = Integer.parseInt(sc.readLine());
                             System.out.println("\n------------------------------------------------------");
@@ -79,7 +103,7 @@ public class bankManagement {
                             System.out.println("\n       !!!!!Amount Deposited Successfully!!!!!\n");
                             }
                         }
-                        if (ch == 2) {
+                        if (ch == 3) {
                             System.out.print("               Enter Amount : ");
                             amt = Integer.parseInt(sc.readLine());
                             System.out.println("\n------------------------------------------------------");
@@ -87,7 +111,7 @@ public class bankManagement {
                             System.out.println("\n       !!!!!Amount Withdrawn Successfully!!!!!\n");
                             }
                         }
-                        if (ch == 3) {
+                        if (ch == 4) {
                             System.out.print("             Enter Receiver  A/c No : ");
                             receiveAc = Integer.parseInt(sc.readLine());
                             System.out.print("             Enter Amount           : ");
@@ -100,12 +124,6 @@ public class bankManagement {
                                 System.out.println(
                                     "Failed!\n");
                             }
-                        }
-                        else if (ch == 4) {                        	
-                        	System.out.print("              Enter Account Number : ");
-                            ac_no = Integer.parseInt(sc.readLine());
-                        	if(BalanceCheck.checkMoney(ac_no)) {
-                        	}
                         }
                         else if (ch == 5) {
                             break;
